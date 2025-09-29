@@ -16,13 +16,13 @@ export interface Theme {
 
 const lightTheme: Theme = {
   colors: {
-    background: '#FFFFFF',
-    surface: '#F8F9FA',
+    background: '#F7F9FC',
+    surface: '#FFFFFF',
     primary: '#015ff7',
-    text: '#000000',
-    textSecondary: '#666666',
+    text: '#0B141A',
+    textSecondary: '#5A6B7A',
     link: '#015ff7',
-    border: '#E0E0E0',
+    border: '#E6ECF1',
   },
   isDark: false,
 };
@@ -30,12 +30,12 @@ const lightTheme: Theme = {
 const darkTheme: Theme = {
   colors: {
     background: '#0B141A',
-    surface: '#1A1A1A',
+    surface: '#131C22',
     primary: '#015ff7',
     text: '#FFFFFF',
-    textSecondary: '#AAAAAA',
+    textSecondary: '#A7B4BF',
     link: '#015ff7',
-    border: '#333333',
+    border: '#1E2A32',
   },
   isDark: true,
 };

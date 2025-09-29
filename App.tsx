@@ -11,9 +11,9 @@ import RestoreBackupScreen from './src/screens/RestoreBackupScreen';
 import ProfileInfoScreen from './src/screens/ProfileInfoScreen';
 import FinishingSetupScreen from './src/screens/FinishingSetupScreen';
 import { UserProvider } from './src/contexts/UserContext';
-import HomeScreen from './src/screens/HomeScreen';
+import ChatListScreen from './src/screens/ChatListScreen';
 
-type Screen = 'splash' | 'welcome' | 'phoneNumber' | 'otpVerification' | 'restoreBackup' | 'profileInfo' | 'finishingSetup' | 'home';
+type Screen = 'splash' | 'welcome' | 'phoneNumber' | 'otpVerification' | 'restoreBackup' | 'profileInfo' | 'finishingSetup' | 'chatList';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('splash');
@@ -42,7 +42,7 @@ export default function App() {
   };
 
   const handleNavigateToHome = () => {
-    setCurrentScreen('home');
+    setCurrentScreen('chatList');
   };
 
   const handleNavigateToProfile = () => {
@@ -72,8 +72,8 @@ export default function App() {
         return <ProfileInfoScreen onNext={() => setCurrentScreen('finishingSetup')} />;
       case 'finishingSetup':
         return <FinishingSetupScreen onDone={handleNavigateToHome} />;
-      case 'home':
-        return <HomeScreen onNavigateBack={handleNavigateBackToPhone} />;
+      case 'chatList':
+        return <ChatListScreen />;
       default:
         return <WelcomeScreen onNavigateToPhoneNumber={handleNavigateToPhoneNumber} />;
     }
@@ -86,7 +86,7 @@ export default function App() {
       </UserProvider>
       <ContactsMediaPermissionModal
         visible={showContactsMediaModal}
-        onClose={() => { setShowContactsMediaModal(false); setCurrentScreen('home'); }}
+        onClose={() => { setShowContactsMediaModal(false); setCurrentScreen('chatList'); }}
         onContinue={() => { setShowContactsMediaModal(false); setCurrentScreen('restoreBackup'); }}
       />
       <StatusBar style="auto" />
