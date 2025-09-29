@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,26 @@ import {
   Modal,
   Animated,
 } from 'react-native';
-import CountryPicker, { Country, CountryCode } from 'react-native-country-picker-modal';
+// Simple country data
+interface Country {
+  cca2: string;
+  callingCode: string[];
+  flag: string;
+  name: string;
+}
+
+const COUNTRIES: Country[] = [
+  { cca2: 'US', callingCode: ['1'], flag: '🇺🇸', name: 'United States' },
+  { cca2: 'CA', callingCode: ['1'], flag: '🇨🇦', name: 'Canada' },
+  { cca2: 'GB', callingCode: ['44'], flag: '🇬🇧', name: 'United Kingdom' },
+  { cca2: 'IN', callingCode: ['91'], flag: '🇮🇳', name: 'India' },
+  { cca2: 'AU', callingCode: ['61'], flag: '🇦🇺', name: 'Australia' },
+  { cca2: 'DE', callingCode: ['49'], flag: '🇩🇪', name: 'Germany' },
+  { cca2: 'FR', callingCode: ['33'], flag: '🇫🇷', name: 'France' },
+  { cca2: 'JP', callingCode: ['81'], flag: '🇯🇵', name: 'Japan' },
+  { cca2: 'CN', callingCode: ['86'], flag: '🇨🇳', name: 'China' },
+  { cca2: 'BR', callingCode: ['55'], flag: '🇧🇷', name: 'Brazil' },
+];
 import { useTheme } from '../contexts/ThemeContext';
 import { getPhoneStyles } from '../styles/phoneStyles';
 
@@ -25,15 +44,8 @@ const PhoneNumberScreen: React.FC<PhoneNumberScreenProps> = ({ onNavigateToOTP, 
   const { theme } = useTheme();
   const styles = getPhoneStyles(theme);
   
-  const [selectedCountry, setSelectedCountry] = useState<Country>({
-    cca2: 'US' as CountryCode,
-    currency: ['USD'],
-    callingCode: ['1'],
-    region: 'Americas',
-    subregion: 'North America',
-    flag: '🇺🇸',
-    name: 'United States',
-  });
+  const [selectedCountry, setSelectedCountry] = useState<Country>(COUNTRIES[0]);
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
   
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -164,29 +176,15 @@ const PhoneNumberScreen: React.FC<PhoneNumberScreenProps> = ({ onNavigateToOTP, 
 
           {/* Input Container */}
           <View style={styles.inputContainer}>
-            {/* Country Picker */}
-            <CountryPicker
-              withFilter
-              withFlag
-              withCountryNameButton
-              withCallingCodeButton
-              withEmoji
-              onSelect={handleCountrySelect}
-              countryCode={selectedCountry.cca2}
-              visible={false}
-              theme={{
-                primaryColor: theme.colors.primary,
-                primaryColorVariant: theme.colors.primary,
-                backgroundColor: theme.colors.background,
-                onBackgroundTextColor: theme.colors.text,
-                filterPlaceholderTextColor: theme.colors.textSecondary,
-                activeOpacity: 0.7,
-                itemHeight: 56,
-                flagSize: 28,
-                fontSize: 16,
-                fontFamily: 'System',
-              }}
-            />
+            {/* Country Selector */}
+            <TouchableOpacity 
+              style={styles.countrySelector}
+              onPress={() => setShowCountryPicker(true)}
+            >
+              <Text style={styles.countryFlag}>{selectedCountry.flag}</Text>
+              <Text style={styles.countryName}>{selectedCountry.name}</Text>
+              <Text style={styles.countryCode}>+{selectedCountry.callingCode[0]}</Text>
+            </TouchableOpacity>
             
             {/* Phone Input Row */}
             <View style={styles.phoneInputContainer}>
@@ -322,6 +320,45 @@ const PhoneNumberScreen: React.FC<PhoneNumberScreenProps> = ({ onNavigateToOTP, 
               ]} 
             />
             <Text style={styles.loadingText}>Connecting...</Text>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Country Picker Modal */}
+      <Modal
+        visible={showCountryPicker}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowCountryPicker(false)}
+      >
+        <View style={styles.countryPickerOverlay}>
+          <View style={styles.countryPickerContainer}>
+            <View style={styles.countryPickerHeader}>
+              <Text style={styles.countryPickerTitle}>Select Country</Text>
+              <TouchableOpacity 
+                style={styles.countryPickerClose}
+                onPress={() => setShowCountryPicker(false)}
+              >
+                <Text style={styles.countryPickerCloseText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+            {COUNTRIES.map((country) => (
+              <TouchableOpacity
+                key={country.cca2}
+                style={[
+                  styles.countryItem,
+                  selectedCountry.cca2 === country.cca2 && styles.countryItemSelected
+                ]}
+                onPress={() => {
+                  setSelectedCountry(country);
+                  setShowCountryPicker(false);
+                }}
+              >
+                <Text style={styles.countryItemFlag}>{country.flag}</Text>
+                <Text style={styles.countryItemName}>{country.name}</Text>
+                <Text style={styles.countryItemCode}>+{country.callingCode[0]}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </Modal>

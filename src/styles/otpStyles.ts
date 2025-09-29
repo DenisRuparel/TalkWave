@@ -83,6 +83,27 @@ export const getOTPStyles = (theme: Theme) => {
       color: theme.colors.primary,
       fontWeight: '500',
     },
+    verifyButton: {
+      backgroundColor: theme.colors.primary,
+      paddingVertical: 16,
+      paddingHorizontal: 32,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginTop: 32,
+      shadowColor: theme.colors.primary,
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    verifyButtonText: {
+      fontSize: 16,
+      color: '#FFFFFF',
+      fontWeight: '600',
+    },
     bottomSheetOverlay: {
       flex: 1,
       justifyContent: 'flex-end',
@@ -245,6 +266,32 @@ export const getOTPStyles = (theme: Theme) => {
     menuItemText: {
       fontSize: 16,
       color: theme.colors.text,
+      fontWeight: '500',
+    },
+    verifyingOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    verifyingContainer: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: 12,
+      padding: 24,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 8,
+      elevation: 8,
+    },
+    verifyingText: {
+      fontSize: 16,
+      color: theme.colors.text,
+      marginTop: 16,
       fontWeight: '500',
     },
   });

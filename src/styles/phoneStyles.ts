@@ -290,5 +290,91 @@ export const getPhoneStyles = (theme: Theme) => {
       color: '#000000',
       fontWeight: '500',
     },
+    // Country Picker Styles
+    countrySelector: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      backgroundColor: theme.colors.surface,
+      borderRadius: 8,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+    },
+    countryFlag: {
+      fontSize: 24,
+      marginRight: 12,
+    },
+    countryName: {
+      flex: 1,
+      fontSize: 16,
+      color: theme.colors.text,
+      fontWeight: '500',
+    },
+    countryCode: {
+      fontSize: 16,
+      color: theme.colors.textSecondary,
+      fontWeight: '500',
+    },
+    countryPickerOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+    },
+    countryPickerContainer: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: 12,
+      maxHeight: '80%',
+      width: '100%',
+      maxWidth: 400,
+    },
+    countryPickerHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingVertical: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.border,
+    },
+    countryPickerTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      color: theme.colors.text,
+    },
+    countryPickerClose: {
+      padding: 8,
+    },
+    countryPickerCloseText: {
+      fontSize: 18,
+      color: theme.colors.textSecondary,
+    },
+    countryItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingVertical: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.border,
+    },
+    countryItemSelected: {
+      backgroundColor: theme.colors.background,
+    },
+    countryItemFlag: {
+      fontSize: 24,
+      marginRight: 12,
+    },
+    countryItemName: {
+      flex: 1,
+      fontSize: 16,
+      color: theme.colors.text,
+    },
+    countryItemCode: {
+      fontSize: 16,
+      color: theme.colors.textSecondary,
+    },
   });
 };

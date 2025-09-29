@@ -8,6 +8,7 @@ import {
   Modal,
   Animated,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from '@react-native-vector-icons/octicons';
 import { useTheme } from '../contexts/ThemeContext';
@@ -17,6 +18,7 @@ interface OTPVerificationScreenProps {
   phoneNumber: string;
   countryCode: string;
   onNavigateBack: () => void;
+  onNavigateToPermission: () => void;
 }
 
 const { width, height } = Dimensions.get('window');
@@ -24,13 +26,15 @@ const { width, height } = Dimensions.get('window');
 const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({ 
   phoneNumber, 
   countryCode,
-  onNavigateBack
+  onNavigateBack,
+  onNavigateToPermission
 }) => {
   const { theme } = useTheme();
   const styles = getOTPStyles(theme);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showVerifying, setShowVerifying] = useState(false);
   const [selectedOption, setSelectedOption] = useState('sms');
   const [smsTimer, setSmsTimer] = useState(7200); // 2 hours in seconds
   const [callTimer, setCallTimer] = useState(62); // 1:02 in seconds
@@ -75,6 +79,20 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
+
+    // Check if all 6 digits are entered
+    const updatedOtp = [...newOtp];
+    if (updatedOtp.every(digit => digit !== '')) {
+      const enteredOTP = updatedOtp.join('');
+      if (enteredOTP === '123456') {
+        setShowVerifying(true);
+        // Simulate verification delay
+        setTimeout(() => {
+          setShowVerifying(false);
+          onNavigateToPermission();
+        }, 2000);
+      }
+    }
   };
 
   const handleKeyPress = (key: string, index: number) => {
@@ -118,6 +136,7 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
     // Handle continue logic
     setShowBottomSheet(false);
   };
+
 
   const handleMenuPress = () => {
     setShowMenu(true);
@@ -327,6 +346,21 @@ const OTPVerificationScreen: React.FC<OTPVerificationScreenProps> = ({
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
+      </Modal>
+
+      {/* Verifying Modal */}
+      <Modal
+        visible={showVerifying}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => {}} // Prevent closing during verification
+      >
+        <View style={styles.verifyingOverlay}>
+          <View style={styles.verifyingContainer}>
+            <ActivityIndicator size="large" color={theme.colors.primary} />
+            <Text style={styles.verifyingText}>Verifying...</Text>
+          </View>
+        </View>
       </Modal>
     </SafeAreaView>
   );
