@@ -8,10 +8,12 @@ import PhoneNumberScreen from './src/screens/PhoneNumberScreen';
 import OTPVerificationScreen from './src/screens/OTPVerificationScreen';
 import ContactsMediaPermissionModal from './src/screens/ContactsMediaPermissionModal';
 import RestoreBackupScreen from './src/screens/RestoreBackupScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
+import ProfileInfoScreen from './src/screens/ProfileInfoScreen';
+import FinishingSetupScreen from './src/screens/FinishingSetupScreen';
+import { UserProvider } from './src/contexts/UserContext';
 import HomeScreen from './src/screens/HomeScreen';
 
-type Screen = 'splash' | 'welcome' | 'phoneNumber' | 'otpVerification' | 'restoreBackup' | 'profile' | 'home';
+type Screen = 'splash' | 'welcome' | 'phoneNumber' | 'otpVerification' | 'restoreBackup' | 'profileInfo' | 'finishingSetup' | 'home';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('splash');
@@ -44,7 +46,7 @@ export default function App() {
   };
 
   const handleNavigateToProfile = () => {
-    setCurrentScreen('profile');
+    setCurrentScreen('profileInfo');
   };
 
   const renderScreen = () => {
@@ -66,8 +68,10 @@ export default function App() {
         ) : null;
       case 'restoreBackup':
         return <RestoreBackupScreen onNavigateToProfile={handleNavigateToProfile} />;
-      case 'profile':
-        return <ProfileScreen onDone={handleNavigateToHome} />;
+      case 'profileInfo':
+        return <ProfileInfoScreen onNext={() => setCurrentScreen('finishingSetup')} />;
+      case 'finishingSetup':
+        return <FinishingSetupScreen onDone={handleNavigateToHome} />;
       case 'home':
         return <HomeScreen onNavigateBack={handleNavigateBackToPhone} />;
       default:
@@ -77,7 +81,9 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      {renderScreen()}
+      <UserProvider>
+        {renderScreen()}
+      </UserProvider>
       <ContactsMediaPermissionModal
         visible={showContactsMediaModal}
         onClose={() => { setShowContactsMediaModal(false); setCurrentScreen('home'); }}
