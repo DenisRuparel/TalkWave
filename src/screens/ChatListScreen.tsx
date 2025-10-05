@@ -40,7 +40,7 @@ const Pill: React.FC<{ label: string; active?: boolean }> = ({ label, active }) 
         borderColor: theme.colors.border,
       }}
     >
-      <Text style={{ color: active ? '#ffffff' : theme.colors.textSecondary, fontSize: 12 }}>{label}</Text>
+      <Text style={{ color: active ? theme.colors.background : theme.colors.textSecondary, fontSize: 12 }}>{label}</Text>
     </View>
   );
 };
@@ -115,7 +115,7 @@ const ChatListScreen: React.FC = () => {
       }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', minHeight: 44, paddingBottom: 10 }}>
           <Text style={{ 
-            color: theme.colors.text, 
+            color: theme.isDark ? theme.colors.text : theme.colors.primary, 
             fontSize: 22, 
             fontWeight: '700', 
             flex: 1,
@@ -278,10 +278,10 @@ const ChatListScreen: React.FC = () => {
             <SvgIcon 
               name={item.icon as any} 
               size={24} 
-              color={activeTab === idx ? '#007AFF' : theme.colors.textSecondary} 
+              color={activeTab === idx ? theme.colors.primary : theme.colors.textSecondary} 
             />
             <Text style={{ 
-              color: activeTab === idx ? '#007AFF' : theme.colors.textSecondary, 
+              color: activeTab === idx ? theme.colors.primary : theme.colors.textSecondary, 
               fontSize: 12,
               marginTop: 4,
               fontWeight: activeTab === idx ? '600' : '400'
@@ -312,7 +312,7 @@ const ChatListScreen: React.FC = () => {
         }}
         onPress={() => navigation.navigate('SelectContact')}
       >
-        <SvgIcon name="new-chats" size={24} color="#ffffff" />
+        <SvgIcon name="new-chats" size={24} color={theme.colors.background} />
       </TouchableOpacity>
 
       {/* Transparent Menu Modal */}
@@ -385,7 +385,7 @@ const ChatListScreen: React.FC = () => {
               }}
               onPress={() => setShowNewChatModal(false)}
             >
-              <Text style={{ color: '#ffffff', fontWeight: 'bold' }}>Start Chat</Text>
+              <Text style={{ color: theme.colors.background, fontWeight: 'bold' }}>Start Chat</Text>
             </TouchableOpacity>
           </View>
         </View>

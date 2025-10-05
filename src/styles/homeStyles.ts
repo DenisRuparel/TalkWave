@@ -20,7 +20,7 @@ export const getHomeStyles = (theme: Theme) => {
     title: {
       fontSize: 24,
       fontWeight: 'bold',
-      color: theme.colors.text,
+      color: theme.isDark ? theme.colors.text : theme.colors.primary,
     },
     backButton: {
       padding: 8,

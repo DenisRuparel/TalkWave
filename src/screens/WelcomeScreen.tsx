@@ -38,7 +38,9 @@ const WelcomeScreen: React.FC = () => {
       <View style={styles.safeArea}>
         <View style={styles.content}>
           {/* Title */}
-          <Text style={styles.title}>Welcome to TalkWave</Text>
+          <Text style={styles.title}>
+            Welcome to <Text style={{ color: !theme.isDark ? theme.colors.primary : theme.colors.text }}>TalkWave</Text>
+          </Text>
 
           {/* Illustration/Logo */}
           <View style={styles.illustrationContainer}>

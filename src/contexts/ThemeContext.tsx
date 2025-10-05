@@ -49,10 +49,13 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const systemColorScheme = useColorScheme();
-  const [isDark, setIsDark] = useState(true); // Default to dark mode
+  // Initialize based on system preference immediately
+  const [isDark, setIsDark] = useState(() => {
+    return systemColorScheme !== 'light'; // true for 'dark' or null/undefined, false for 'light'
+  });
 
   useEffect(() => {
-    // Update based on system preference
+    // Update based on system preference changes
     if (systemColorScheme === 'light') {
       setIsDark(false);
     } else {

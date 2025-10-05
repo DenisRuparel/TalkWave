@@ -31,7 +31,7 @@ export const getSplashStyles = (theme: Theme) => {
     appName: {
       fontSize: 24,
       fontWeight: '600',
-      color: theme.colors.text,
+      color: theme.isDark ? theme.colors.text : theme.colors.primary,
       marginBottom: 8,
       letterSpacing: 0.5,
     },
