@@ -1,14 +1,20 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-interface SvgIconProps {
-  name: 'search' | 'chats' | 'communities' | 'calls' | 'updates' | 'archived' | 'new-chats' | 'dots' | 'arrow-left';
+interface IconProps {
+  name: 'search' | 'chats' | 'communities' | 'calls' | 'updates' | 'archived' | 'new-chats' | 'dots' | 'add-contact' | 'add-group' | 'ai-chat' | 'camera' | 'scanner' | 'community';
   size?: number;
   color?: string;
 }
 
-const SvgIcon: React.FC<SvgIconProps> = ({ name, size = 24, color = '#000' }) => {
+const Icon: React.FC<IconProps> = ({ name, size = 24, color = '#000' }) => {
+  // PNG icons that don't need tinting (colored icons)
+  const pngIcons = ['add-contact', 'add-group', 'ai-chat', 'camera', 'scanner', 'community'];
+  
+  // PNG icons that can be tinted (monochrome icons)
+  const tintablePngIcons = ['camera', 'scanner'];
+  
   const getIconPath = () => {
     switch (name) {
       case 'search':
@@ -27,13 +33,48 @@ const SvgIcon: React.FC<SvgIconProps> = ({ name, size = 24, color = '#000' }) =>
         return "m20,0H4C1.794,0,0,1.794,0,4v12c0,2.206,1.794,4,4,4h2.923l3.748,3.157c.382.339.862.507,1.337.507.467,0,.931-.162,1.293-.484l3.847-3.18h2.852c2.206,0,4-1.794,4-4V4c0-2.206-1.794-4-4-4Zm2,16c0,1.103-.897,2-2,2h-3.211c-.232,0-.458.081-.637.229l-4.171,3.416-4.047-3.41c-.181-.152-.409-.235-.645-.235h-3.289c-1.103,0-2-.897-2-2V4c0-1.103.897-2,2-2h16c1.103,0,2,.897,2,2v12Zm-5-6c0,.552-.448,1-1,1h-3v3c0,.552-.448,1-1,1s-1-.448-1-1v-3h-3c-.552,0-1-.448-1-1s.448-1,1-1h3v-3c0-.552.448-1,1-1s1,.448,1,1v3h3c.552,0,1,.448,1,1Z";
       case 'dots':
         return "M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z";
-      case 'arrow-left':
-        return "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z";
       default:
         return "";
     }
   };
 
+  const getIconSource = () => {
+    switch (name) {
+      case 'add-contact':
+        return require('../../assets/icons/add-contact.png');
+      case 'add-group':
+        return require('../../assets/icons/add-group.png');
+      case 'ai-chat':
+        return require('../../assets/icons/ai-chat.png');
+      case 'camera':
+        return require('../../assets/icons/camera.png');
+      case 'scanner':
+        return require('../../assets/icons/scanner.png');
+      case 'community':
+        return require('../../assets/icons/community.png');
+      default:
+        return null;
+    }
+  };
+
+  // If it's a PNG icon, render Image component
+  if (pngIcons.includes(name)) {
+    const source = getIconSource();
+    if (source) {
+      return (
+        <Image 
+          source={source} 
+          style={{ 
+            width: size, 
+            height: size,
+            ...(tintablePngIcons.includes(name) && { tintColor: color })
+          }} 
+        />
+      );
+    }
+  }
+
+  // Otherwise render SVG
   return (
     <View style={{ width: size, height: size }}>
       <Svg width={size} height={size} viewBox="0 0 24 24">
@@ -43,4 +84,4 @@ const SvgIcon: React.FC<SvgIconProps> = ({ name, size = 24, color = '#000' }) =>
   );
 };
 
-export default SvgIcon;
+export default Icon;

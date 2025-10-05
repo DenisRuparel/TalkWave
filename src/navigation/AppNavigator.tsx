@@ -3,16 +3,21 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import SplashScreen from '../screens/SplashScreen';
+import WelcomeScreen from '../screens/WelcomeScreen';
 import ChatListScreen from '../screens/ChatListScreen';
 import PhoneNumberScreen from '../screens/PhoneNumberScreen';
 import OTPVerificationScreen from '../screens/OTPVerificationScreen';
 import RestoreBackupScreen from '../screens/RestoreBackupScreen';
 import ProfileInfoScreen from '../screens/ProfileInfoScreen';
 import FinishingSetupScreen from '../screens/FinishingSetupScreen';
+import SelectContactScreen from '../screens/SelectContactScreen';
+import ContactsMediaPermissionModal from '../screens/ContactsMediaPermissionModal';
 
 export type RootStackParamList = {
   Splash: undefined;
+  Welcome: undefined;
   ChatList: undefined;
+  SelectContact: undefined;
   PhoneNumber: undefined;
   OTPVerification: {
     phoneNumber: string;
@@ -62,8 +67,14 @@ const AppNavigator: React.FC = () => {
           }}
         >
           <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
           {/* Chat list is our post-setup landing */}
           <Stack.Screen name="ChatList" component={ChatListScreen} />
+          <Stack.Screen name="SelectContact">
+            {({ navigation }) => (
+              <SelectContactScreen onBack={() => navigation.goBack()} />
+            )}
+          </Stack.Screen>
 
           {/* Auth / Setup flow with explicit navigation callbacks */}
           <Stack.Screen name="PhoneNumber">
@@ -107,6 +118,15 @@ const AppNavigator: React.FC = () => {
           </Stack.Screen>
         </Stack.Navigator>
 
+        {/* Contacts Media Permission Modal */}
+        <ContactsMediaPermissionModal
+          visible={showPermissionPopup}
+          onClose={() => setShowPermissionPopup(false)}
+          onContinue={() => {
+            setShowPermissionPopup(false);
+            // Navigate to RestoreBackup or handle permission logic
+          }}
+        />
       </NavigationContainer>
     </ThemeProvider>
   );

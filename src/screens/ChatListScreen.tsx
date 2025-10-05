@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, FlatList, Image, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../contexts/ThemeContext';
 import SvgIcon from '../components/SvgIcon';
 
@@ -26,6 +27,7 @@ const sampleChats: Chat[] = [
 
 const Pill: React.FC<{ label: string; active?: boolean }> = ({ label, active }) => {
   const { theme } = useTheme();
+  const navigation = useNavigation<any>();
   return (
     <View
       style={{
@@ -95,6 +97,7 @@ const ChatItem: React.FC<{ chat: Chat }> = ({ chat }) => {
 
 const ChatListScreen: React.FC = () => {
   const { theme } = useTheme();
+  const navigation = useNavigation<any>();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNewChatModal, setShowNewChatModal] = useState(false);
   const [activeTab, setActiveTab] = useState(0); // Track active tab
@@ -307,7 +310,7 @@ const ChatListScreen: React.FC = () => {
           shadowOpacity: 0.25,
           shadowRadius: 4,
         }}
-        onPress={() => setShowNewChatModal(true)}
+        onPress={() => navigation.navigate('SelectContact')}
       >
         <SvgIcon name="new-chats" size={24} color="#ffffff" />
       </TouchableOpacity>

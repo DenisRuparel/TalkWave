@@ -8,15 +8,13 @@ import {
   Linking,
   Alert,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../contexts/ThemeContext';
 import { getWelcomeStyles } from '../styles/welcomeStyles';
 
-interface WelcomeScreenProps {
-  onNavigateToPhoneNumber: () => void;
-}
-
-const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigateToPhoneNumber }) => {
+const WelcomeScreen: React.FC = () => {
   const { theme } = useTheme();
+  const navigation = useNavigation<any>();
   const styles = getWelcomeStyles(theme);
 
   const handlePrivacyPolicy = () => {
@@ -32,7 +30,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onNavigateToPhoneNumber }
   };
 
   const handleAgreeAndContinue = () => {
-    onNavigateToPhoneNumber();
+    navigation.navigate('PhoneNumber');
   };
 
   return (

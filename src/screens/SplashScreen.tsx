@@ -6,29 +6,25 @@ import {
   StatusBar,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../contexts/ThemeContext';
 import { getSplashStyles } from '../styles/splashStyles';
 
-interface SplashScreenProps {
-  onAnimationComplete?: (() => void) | undefined;
-  duration?: number;
-}
-
-const SplashScreen: React.FC<SplashScreenProps> = ({
-  onAnimationComplete,
+const SplashScreen: React.FC<{ duration?: number }> = ({
   duration = 2000,
 }) => {
   const { theme } = useTheme();
+  const navigation = useNavigation<any>();
   const styles = getSplashStyles(theme);
 
   useEffect(() => {
-    // Call completion callback after duration
+    // Navigate to Welcome screen after duration
     const timer = setTimeout(() => {
-      onAnimationComplete?.();
+      navigation.replace('Welcome');
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [duration, onAnimationComplete]);
+  }, [duration, navigation]);
 
   return (
     <View style={styles.container}>
